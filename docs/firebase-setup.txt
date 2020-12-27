@@ -310,3 +310,19 @@ deploy via nx
 
 > nx deploy functions
 > nx deploy console
+
+add github actions folder
+
+> mkdir .github
+> mkdir .github/workflows
+
+add .github/workflows/firebase-deploy.yml
+
+generate ci token for firebase
+
+> firebase login:ci
+
+copy token into a new repository secret called FIREBASE_TOKEN in the github repository
+
+
+
