@@ -153,6 +153,13 @@ depcheck(
   }
 )
 
+add items to .gitignore
+
+# Firebase
+/.firebase
+firebase-debug.log
+ui-debug.log
+
 replace functions project scripts in workspace.json
 
 "architect": {
@@ -244,3 +251,5 @@ replace functions project scripts in workspace.json
     }
   }
 }
+
+replace console project scripts in workspace.json
