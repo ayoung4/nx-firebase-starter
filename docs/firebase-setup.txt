@@ -1,0 +1,94 @@
+make sure youre logged in with correct account
+
+> firebase logout
+
+> firebase login
+
+create a new firebase project under same account
+
+create firestore/rtdb if required
+
+> firebase init
+
+choose project and required components
+
+> git add . && git commit -m "firebase init"
+
+add @nrwl/node and @nrwl/react
+
+> yarn add @nrwl/node @nrwl/react
+
+create a new node app
+
+> nx g @nrwl/node:app functions
+
+create a new react app
+
+> nx g @nrwl/react:app console
+
+update firebase.json:
+
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": {
+    "source": "dist/apps/functions"
+  },
+  "hosting": [
+    {
+      "target": "console",
+      "public": "dist/apps/console",
+      "ignore": [
+        "**/.*"
+      ],
+      "headers": [
+        {
+          "source": "*.[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].+(css|js)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public,max-age=31536000,immutable"
+            }
+          ]
+        }
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ],
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "database": {
+      "port": 9000
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "pubsub": {
+      "port": 8085
+    },
+    "ui": {
+      "enabled": true
+    }
+  },
+  "remoteconfig": {
+    "template": "remoteconfig.template.json"
+  }
+}

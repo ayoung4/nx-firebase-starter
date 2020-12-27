@@ -22,5 +22,16 @@
       }
     }
   },
-  "projects": {}
+  "projects": {
+    "functions": {
+      "tags": []
+    },
+    "console": {
+      "tags": []
+    },
+    "console-e2e": {
+      "tags": [],
+      "implicitDependencies": ["console"]
+    }
+  }
 }
