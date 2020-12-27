@@ -6,8 +6,7 @@
       "sourceRoot": "apps/functions/src",
       "projectType": "application",
       "prefix": "functions",
-      "schematics": {},
-      "architect": {
+      "targets": {
         "build-node": {
           "builder": "@nrwl/node:build",
           "options": {
@@ -149,7 +148,7 @@
           }
         },
         "serve": {
-          "executor": "@nrwl/web:dev-server",
+          "builder": "@nrwl/web:dev-server",
           "options": {
             "buildTarget": "console:build"
           },
@@ -157,6 +156,20 @@
             "production": {
               "buildTarget": "console:build:production"
             }
+          }
+        },
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "nx run console:build"
+              },
+              {
+                "command": "firebase deploy --only hosting:console"
+              }
+            ],
+            "parallel": false
           }
         },
         "lint": {

@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "gc-demo-4ed09"
+  },
+  "targets": {
+    "gc-demo-4ed09": {
+      "hosting": {
+        "console": [
+          "fir-site-20243"
+        ]
+      }
+    }
   }
 }
