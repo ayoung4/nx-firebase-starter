@@ -6,19 +6,15 @@
       "sourceRoot": "apps/functions/src",
       "projectType": "application",
       "prefix": "functions",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+      "schematics": {},
+      "architect": {
+        "build-node": {
+          "builder": "@nrwl/node:build",
           "options": {
             "outputPath": "dist/apps/functions",
             "main": "apps/functions/src/main.ts",
             "tsConfig": "apps/functions/tsconfig.app.json",
-            "assets": [
-              "apps/functions/src/assets"
-            ]
+            "assets": ["apps/functions/src/assets"]
           },
           "configurations": {
             "production": {
@@ -34,25 +30,66 @@
             }
           }
         },
-        "serve": {
-          "executor": "@nrwl/node:execute",
+        "build": {
+          "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "buildTarget": "functions:build"
+            "commands": [
+              {
+                "command": "nx run functions:build-node"
+              },
+              {
+                "command": "ts-node tools/scripts/build-firebase-functions-package-json.ts"
+              }
+            ],
+            "parallel": false
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "nx run functions:build && firebase emulators:start --only functions --inspect-functions"
+          }
+        },
+        "shell": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "nx run functions:build && firebase functions:shell --inspect-functions"
+          }
+        },
+        "start": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "nx run functions:shell"
+          }
+        },
+        "deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "nx run functions:build"
+              },
+              {
+                "command": "firebase deploy --only functions"
+              }
+            ],
+            "parallel": false
+          }
+        },
+        "logs": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "firebase funcions:log"
           }
         },
         "lint": {
-          "executor": "@nrwl/linter:eslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/functions/**/*.ts"
-            ]
+            "lintFilePatterns": ["apps/functions/**/*.ts"]
           }
         },
         "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/functions"
-          ],
+          "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/functions/jest.config.js",
             "passWithNoTests": true
