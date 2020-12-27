@@ -21,6 +21,7 @@ add @nrwl/node and @nrwl/react
 create a new node app
 
 > nx g @nrwl/node:app functions
+> yarn add firebase-functions firebase-admin
 
 create a new react app
 
